@@ -1,0 +1,16 @@
+docker run -it --rm -p 5432:5432 
+-v ~/Bookstore:/Bookstore 
+-e POSTGRES_PASSWORD_FILE=/Bookstore/postgresql/password.txt 
+-e POSTGRES_USER=hung 
+--network book 
+--network-alias postpres 
+-v ~/Bookstore/postgresql/data:/var/lib/postgresql/data 
+-d postgres
+
+
+docker run --rm  
+-p 3000:3000 
+-w /Bookstore 
+-v ${PWD}:/Bookstore 
+--network book 
+node:latest sh -c "yarn dev"
