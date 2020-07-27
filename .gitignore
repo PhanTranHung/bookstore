@@ -1,3 +1,4 @@
 node_modules
 postgresql/password.json
 postgresql/password.txt
+postgresql/data

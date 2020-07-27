@@ -15,8 +15,8 @@ const PROJECT_NAME = "Bookstore";
 const adapterConfig = {
   // dropDatabase: true,
   knexOptions: {
-    // connection: "postgres://hung:123456789@postgresql:5432/bookstore"
-    connection: "postgres://admin:123456789@localhost:5432/bookstore"
+    connection: "postgres://admin:123456789@postgresql:5432/bookstore"
+    // connection: "postgres://admin:123456789@localhost:5432/bookstore"
   }
 };
 
@@ -47,16 +47,25 @@ const authStrategy = keystone.createAuthStrategy({
   }
 });
 
+const competentPersons = { admin: "admin", manager: "manager" };
+const isAccessAllowed = ({ authentication: { item } }) =>
+  item !== undefined && item.permission in competentPersons;
 // console.log(sampleData);
 
 module.exports = {
   keystone,
   apps: [
-    new GraphQLApp(),
+    new GraphQLApp({
+      apiPath: "/graphql/api",
+      graphiqlPath: "/graphql/playground"
+    }),
     new AdminUIApp({
       name: PROJECT_NAME,
       enableDefaultRoute: true,
-      authStrategy
+      authStrategy,
+      apiPath: "/graphql/api",
+      graphiqlPath: "/graphql/playground",
+      isAccessAllowed
     })
   ]
 };

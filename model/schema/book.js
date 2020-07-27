@@ -4,7 +4,8 @@ const {
   CalendarDay,
   DateTime,
   Integer,
-  Url
+  Url,
+  Float
 } = require("@keystonejs/fields");
 
 const model = require("../model-name");
@@ -15,6 +16,7 @@ const court = ({ authentication: { item } }) =>
 
 module.exports = {
   access: {
+    // do I have this permission, right?
     create: proof => court(proof),
     read: true,
     update: proof => court(proof),
@@ -31,6 +33,9 @@ module.exports = {
       isRequired: true,
       ref: "Author",
       many: true
+    },
+    rate: {
+      type: Float
     },
     price: {
       type: Integer,

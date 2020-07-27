@@ -1,22 +1,23 @@
 version: "3.7"
 
 services:
-  # app:
-  #   image: node:latest
-  #   command: sh -c "npm install -g nodemon && yarn dev"
-  #   ports:
-  #     - 3000:3000
-  #   working_dir: /bookstore
-  #   volumes:
-  #     - ./:/bookstore
-
   postgresql:
+    command: ""
     image: postgres:latest
     volumes:
-      # - ./postgresql/data:/var/lib/postgresql/data
+      - ./postgresql/data:/var/lib/postgresql/data
       - ./postgresql:/run/secrets/
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/password.txt
       POSTGRES_USER: admin
+
+  app:
+    image: node:latest
+    command: sh -c "yarn dev"
+    ports:
+      - 3000:3000
+    working_dir: /bookstore
+    volumes:
+      - ./:/bookstore
